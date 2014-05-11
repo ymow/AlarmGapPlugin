@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns="http://www.phonegap.com/ns/plugins/1.0"
+	id="com.simasteam.phonegap.plugin.alarmgap"
+	version="1.0.0">
+	
+    <name>AlarmGap</name>
+    <description>A PhoneGap Alarm Plugin</description>
+	<author>Leonardo Simas Gonçalves</author>
+    <license>LGPL v3</license>
+    <keywords>phonegap,alarm,plugin,android</keywords>
+	
+	<engines>
+		<engine name="cordova" version=">=3.3.0" />
+	</engines>
+  
+    <js-module src="www/AlarmGap.js" name="AlarmGap">
+        <clobbers target="window.plugins.alarmGap" />
+    </js-module>
+ 
+    <!-- android -->
+    <platform name="android">
+        <config-file target="res/xml/config.xml" parent="/*">
+            <feature name="AlarmGap">
+                <param name="android-package" value="com.simasteam.phonegap.plugin.alarmgap.AlarmGapPlugin"/>
+            </feature>
+        </config-file>
+		
+		<config-file target="AndroidManifest.xml" parent="/manifest/application">
+			<activity android:name="com.simasteam.phonegap.plugin.alarmgap.ShowAlarmActivity">
+			</activity>
+		</config-file>
+ 
+        <source-file src="src/android/AlarmBean.java" target-dir="src/com/simasteam/phonegap/plugin/alarmgap" />
+        <source-file src="src/android/AlarmGapPlugin.java" target-dir="src/com/simasteam/phonegap/plugin/alarmgap" />
+        <source-file src="src/android/ShowAlarmActivity.java" target-dir="src/com/simasteam/phonegap/plugin/alarmgap" />
+     </platform>          
+</plugin>
