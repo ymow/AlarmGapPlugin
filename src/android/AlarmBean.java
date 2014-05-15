@@ -1,23 +1,27 @@
 package com.simasteam.phonegap.plugin.alarmgap;
 
 import java.io.Serializable;
-import java.util.Date;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import android.util.Log;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
-import android.util.Log;
-
 @DatabaseTable(tableName="alarm")
 public class AlarmBean implements Serializable {
 
-	private static final long serialVersionUID = 1L;
-
 	public static final String FIELD_ALARM_ID = "alarmId";
+	
+	private static final String FIELD_EXTRA = "extra";
+	private static final String FIELD_NOTIFICATION = "notification";
+	private static final String FIELD_HTML_PATH = "htmlPath";
+	private static final String FIELD_VIBRATE = "vibrate";
+	private static final String FIELD_TIME_IN_MILLIS = "timeInMillis";
+
+	private static final long serialVersionUID = 1L;
 	
 	@DatabaseField(generatedId = true)
 	private Long id;
@@ -29,7 +33,7 @@ public class AlarmBean implements Serializable {
 	private Long timeInMillis;
 	
 	@DatabaseField(canBeNull = true)
-	private String jsonObject;
+	private String extra;
 	
 	@DatabaseField(canBeNull = true)
 	private String htmlPath;
@@ -40,27 +44,19 @@ public class AlarmBean implements Serializable {
 	@DatabaseField(canBeNull = false, foreign = true, foreignAutoCreate = true, foreignAutoRefresh = true )
 	private NotificationBean notification;
 	
-	public static AlarmBean parse( JSONArray args ) {
-		Log.d( AlarmGapPlugin.TAG, "args = " + args.toString() );
-		
+	public static AlarmBean parse( JSONObject jo ) {
 		AlarmBean ab = new AlarmBean();
 		
-		ab.alarmId = args.optLong( 0, 1 );
-		ab.timeInMillis = args.optLong( 1 , 0 );
-		
-		Log.d("AlarmBean", "ab.timeInMillis = " + ab.timeInMillis );
-		Log.d("AlarmBean", "Now = " + new Date() );
-		Log.d("AlarmBean", "alarm time = " + new Date( ab.timeInMillis ) );
-		
-		ab.htmlPath = args.optString( 2, AlarmGapPlugin.HTML_DEFAULT );
-		
-		JSONObject jsonObj = args.optJSONObject( 3 );
-		ab.jsonObject = jsonObj == null ? null : jsonObj.toString();
-		
-		ab.vibrate = args.optBoolean( 4, false );
-		
-		jsonObj = args.optJSONObject( 5 );
+		ab.alarmId = jo.optLong( FIELD_ALARM_ID, 1 );
+		ab.timeInMillis = jo.optLong( FIELD_TIME_IN_MILLIS , 0 );
+		ab.htmlPath = jo.optString( FIELD_HTML_PATH, AlarmGapPlugin.HTML_DEFAULT );
+		ab.vibrate = jo.optBoolean( FIELD_VIBRATE, false );
+
+		JSONObject jsonObj = jo.optJSONObject( FIELD_NOTIFICATION );
 		ab.notification = jsonObj == null ? null : NotificationBean.parse( jsonObj );
+		
+		jsonObj = jo.optJSONObject( FIELD_EXTRA );
+		ab.extra = jsonObj == null ? null : jsonObj.toString();
 		
 		return ab;
 	}
@@ -89,12 +85,12 @@ public class AlarmBean implements Serializable {
 		this.timeInMillis = timeInMillis;
 	}
 
-	public String getJsonObject() {
-		return jsonObject;
+	public String getExtra() {
+		return extra;
 	}
 
-	public void setJsonObject(String jsonObject) {
-		this.jsonObject = jsonObject;
+	public void setExtra(String jsonObject) {
+		this.extra = jsonObject;
 	}
 
 	public String getHtmlPath() {
@@ -125,7 +121,7 @@ public class AlarmBean implements Serializable {
 	public String toString() {
 		return "AlarmBean [id=" + id + ", alarmId=" + alarmId
 				+ ", timeInMillis=" + timeInMillis + ", jsonObject="
-				+ jsonObject + ", htmlPath=" + htmlPath + ", vibrate="
+				+ extra + ", htmlPath=" + htmlPath + ", vibrate="
 				+ vibrate + ", notification=" + notification + "]";
 	}
 
@@ -137,10 +133,12 @@ public class AlarmBean implements Serializable {
 		try {
 			JSONObject json = new JSONObject();
 			
-			json.put( "alarmId", this.alarmId );
-			json.put( "timeInMillis", this.timeInMillis );
-			json.put( "vibrate", this.vibrate );
-			json.put( "htmlPath", this.htmlPath );
+			json.put( FIELD_ALARM_ID, this.alarmId );
+			json.put( FIELD_TIME_IN_MILLIS, this.timeInMillis );
+			json.put( FIELD_VIBRATE, this.vibrate );
+			json.put( FIELD_HTML_PATH, this.htmlPath );
+			json.put( FIELD_NOTIFICATION , notification.toJSON() );
+			json.put( FIELD_EXTRA , new JSONObject( extra ) );
 			
 			return json;
 		} catch (JSONException e) {

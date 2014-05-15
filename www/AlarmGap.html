@@ -1,34 +1,75 @@
 <!DOCTYPE html>
-<!--
-    Licensed to the Apache Software Foundation (ASF) under one
-    or more contributor license agreements.  See the NOTICE file
-    distributed with this work for additional information
-    regarding copyright ownership.  The ASF licenses this file
-    to you under the Apache License, Version 2.0 (the
-    "License"); you may not use this file except in compliance
-    with the License.  You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing,
-    software distributed under the License is distributed on an
-    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-     KIND, either express or implied.  See the License for the
-    specific language governing permissions and limitations
-    under the License.
--->
 <html>
     <head>
         <meta charset="utf-8" />
         <meta name="format-detection" content="telephone=no" />
         <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
         <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+        
+        <script type="text/javascript" src="../phonegap.js"></script>
         <title>AlarmGap</title>
+        
+        <script type="text/javascript">
+			var alarmJsonString = null;
+			var alarmJsonObj = null;
+		
+			var alarmGapReceiveAlarm = function( _alarmJsonString ) {
+				console.log( "alarmGapReceiveAlarm called" );
+			
+				alarmJsonString = _alarmJsonString;
+				alarmJsonObj = eval( "(" + alarmJsonString + ")" );
+				
+				console.log( "alarmJsonString = " + alarmJsonString );
+			
+				document.getElementById("alarmJson").innerHTML = "alarmJson = " + alarmJsonString;
+				
+				document.getElementById("btnStop").onclick = function() {
+					console.log( "btnStop.onclick  !!!" );
+					
+					console.log( "alarmJSON = " + obj );
+					console.log( "navigator.alarmgap = " + navigator.alarmgap );
+					
+					navigator.alarmgap.stopAlarm( obj.alarmId );
+				};
+				
+				document.getElementById("btnSnooze").onclick = function() {
+					console.log( "btnSnooze.onclick  !!!" );
+					
+					console.log( "alarmJSON = " + obj );
+					console.log( "navigator.alarmgap = " + navigator.alarmgap );
+					
+					navigator.alarmgap.snoozeAlarm( obj.alarmId, 10 * 1000 );
+				};
+			
+			};
+		
+            var sample = {
+				// Application Constructor
+				initialize: function() {
+					this.bindEvents();
+				},
+				// Bind Event Listeners
+				bindEvents: function() {
+					document.addEventListener('deviceready', this.onDeviceReady, false);
+				},
+				// deviceready Event Handler
+				onDeviceReady: function() {
+					sample.receivedEvent('deviceready');
+				},
+				// Update DOM on a Received Event
+				receivedEvent: function(id) {
+					
+				}
+            	
+            };
+        </script>
+        
 		<style>
 			.divFloat {
 				float: left;
 				width: 100%;
 				text-align: center;
+				word-wrap: break-word;
 			}
 			
 			.divButton {
@@ -61,10 +102,6 @@
 			{ "alarmJson" : "here" }
         </div>
 		
-        <div id="jsonObject" class="divFloat" >
-        	{ "jsonObject" : "here" }
-        </div>
-        
 		<div id="areaDiv" class="divFloat">
 			<div id="btnStop" class="divButton">
 				Stop
@@ -75,50 +112,5 @@
 			</div>
         </div>
 		
-        <!-- <script type="text/javascript" src="phonegap.js"></script> -->
-        <script type="text/javascript">
-			var alarmJsonString = null;
-			var jsonObjectString = null;
-		
-			function alarmGapReceiveAlarm( _alarmJsonString, _jsonObjectString ) {
-				console.log( "alarmGapReceiveAlarm called" );
-			
-				alarmJsonString = _alarmJsonString;
-				jsonObjectString = _jsonObjectString;
-			
-				document.getElementById("alarmJson").innerHTML = "alarmJson = " + alarmJsonString;
-				document.getElementById("jsonObject").innerHTML = "jsonObject = " +  jsonObjectString;
-				
-				document.getElementById("btnStop").onclick = function() {
-					// TODO
-					console.log( "btnStop.onclick" );
-				};
-				document.getElementById("btnSnooze").onclick = function() {
-					// TODO
-					console.log( "btnSnooze.onclick" );
-				};
-			
-			}
-		
-            var sample = {
-				// Application Constructor
-				initialize: function() {
-					this.bindEvents();
-				},
-				// Bind Event Listeners
-				bindEvents: function() {
-					document.addEventListener('deviceready', this.onDeviceReady, false);
-				},
-				// deviceready Event Handler
-				onDeviceReady: function() {
-					sample.receivedEvent('deviceready');
-				},
-				// Update DOM on a Received Event
-				receivedEvent: function(id) {
-					
-				}
-            	
-            };
-        </script>
     </body>
 </html>

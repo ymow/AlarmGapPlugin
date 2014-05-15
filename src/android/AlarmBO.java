@@ -31,10 +31,11 @@ public class AlarmBO {
 	
 	private static final long[] VIBRATE_PATTERN = { 0, 500, 1000 };
 
-	// TODO tesing: change it later
-	private static final long SNOOZE_DEFAULT = 10 * 1000; // 5min ?
+	private static final long SNOOZE_DEFAULT = 5 * 60 * 1000; // 5min ?
 
 	private static final int NOTIFICATION_ID = -123456;
+
+	private static final String URL_HTML_BASE = "file:///android_asset/www/";
 	
 	private static AlarmBO instance;
 	
@@ -61,26 +62,15 @@ public class AlarmBO {
 		}
 	}
 	
-//	private void closeDatabase() {
-//		if ( dataHelper != null ) {
-//			OpenHelperManager.releaseHelper();
-//			dataHelper = null;
-//		}
-//	}
-	
 	/**
 	 * List all saved alarms
 	 * @return
 	 */
 	public List<AlarmBean> listAll() {
 		List<AlarmBean> list = null;
-		
 		openDatabase();
-
 		try {
 			list = dataHelper.getAlarmDao().queryForAll();
-			
-			Log.d( AlarmGapPlugin.TAG, "listAll = " + list );
 			
 		} catch (SQLException e) {
 			Log.e( AlarmGapPlugin.TAG, "listAll", e );
@@ -98,27 +88,19 @@ public class AlarmBO {
 		boolean isSaved = false;
 		
 		openDatabase();
-		
 		try {
 			
 			AlarmBean savedAlarm = this.findByAlarmId( alarmBean.getAlarmId() );
-			
-			Log.d( AlarmGapPlugin.TAG, "savedAlarm = " + savedAlarm );
 			
 			if ( savedAlarm != null ) { // update
 				alarmBean.setId( savedAlarm.getId() );
 				alarmBean.getNotification().setId( savedAlarm.getNotification().getId() );
 				
 			} else { // create
-				
 				dataHelper.getNotificationDao().create( alarmBean.getNotification() );
-				
 			}
 			
 			CreateOrUpdateStatus status = dataHelper.getAlarmDao().createOrUpdate( alarmBean );
-			
-			Log.d( AlarmGapPlugin.TAG, "saveAlarm, isCreated = " + status.isCreated() + " - isUpdated = " + status.isUpdated() );
-			
 			isSaved = status.isCreated() || status.isUpdated(); 
 			
 			if ( isSaved ) {
@@ -139,13 +121,8 @@ public class AlarmBO {
 			AlarmBean savedAlarm = this.findByAlarmId( alarmBean.getAlarmId() );
 			
 			if ( savedAlarm != null ) {
-				int rows = dataHelper.getAlarmDao().deleteById( savedAlarm.getId() );
-				
-				Log.d( AlarmGapPlugin.TAG, "deleteAlarm, rows = " + rows );
-				
-				rows = dataHelper.getNotificationDao().deleteById( savedAlarm.getNotification().getId() );
-				
-				Log.d( AlarmGapPlugin.TAG, "delete notification, rows = " + rows );
+				dataHelper.getAlarmDao().deleteById( savedAlarm.getId() );
+				dataHelper.getNotificationDao().deleteById( savedAlarm.getNotification().getId() );
 				
 				cancelAlarm( alarmBean );
 			}
@@ -189,19 +166,16 @@ public class AlarmBO {
 	
 	private PendingIntent createPendingNotify(AlarmBean bean) {
 		Intent intent = createIntent( bean );
-		
 		return PendingIntent.getActivity( context, NOTIFICATION_ID , intent, PendingIntent.FLAG_UPDATE_CURRENT );
 	}
 
 	public void setAlarm(AlarmBean bean) {
 		PendingIntent pIntent = createPendingAlarm( bean );
-		
 		getAlarmManager().set( AlarmManager.RTC_WAKEUP , bean.getTimeInMillis().longValue(), pIntent );
 	}
 	
 	private void cancelAlarm(AlarmBean bean) {
 		PendingIntent pIntent = createPendingAlarm( bean );
-		
 		getAlarmManager().cancel( pIntent );
 	}
 	
@@ -259,8 +233,6 @@ public class AlarmBO {
 	}
 	
 	public void startAlarm( AlarmBean bean ) {
-		Log.d( AlarmGapPlugin.TAG, "startAlarm" );
-		
 		showNotification( bean );
 		
 		startVibrating( bean );
@@ -318,7 +290,6 @@ public class AlarmBO {
 			Class<?> classDrawable = Class.forName( packageName + ".R$drawable" );
 			
 			return classDrawable.getField( smallIconName ).getInt( null );
-			
 		} catch (Exception e) {
 			e.printStackTrace();
 			return 0;
@@ -351,20 +322,15 @@ public class AlarmBO {
 	}
 
 	public void stopAlarm( AlarmBean bean ) {
-		Log.d( AlarmGapPlugin.TAG, "stopAlarm" );
-		
 		deleteAlarm( bean );
 		
 		hideNotification( bean );
 		
 		stopAlarmSound();
 		stopVibrating( bean );
-		
 	}
 	
 	public void snoozeAlarm( AlarmBean bean, long timeInMillis ) {
-		Log.d( AlarmGapPlugin.TAG, "snoozeAlarm timeInMillis = " + timeInMillis );
-		
 		stopAlarmSound();
 		stopVibrating( bean );
 		
@@ -382,6 +348,16 @@ public class AlarmBO {
 		showNotification( bean );
 		
 		this.saveAlarm( bean );
+	}
+	
+	public static String getAlarmUrl( AlarmBean bean ) {
+		String htmlPath = bean.getHtmlPath();
+		if ( TextUtils.isEmpty( htmlPath ) ) {
+			htmlPath =  AlarmGapPlugin.HTML_DEFAULT;
+		}
+		
+		
+		return URL_HTML_BASE + htmlPath;
 	}
 	
 }

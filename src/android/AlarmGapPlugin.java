@@ -50,7 +50,6 @@ public class AlarmGapPlugin extends CordovaPlugin {
 			} else {
 				callbackContext.error("Invalid action");
 				return false;
-				
 			}
 			
 			return true;
@@ -77,7 +76,7 @@ public class AlarmGapPlugin extends CordovaPlugin {
 			alarmId = args.optLong( 0 );
 
 		} else {
-			bean = AlarmBean.parse( args );
+			bean = AlarmBean.parse( args.optJSONObject( 0 ) );
 		}
 		
 	}
