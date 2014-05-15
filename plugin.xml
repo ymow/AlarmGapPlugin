@@ -1,38 +1,63 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?> 
 <plugin xmlns="http://www.phonegap.com/ns/plugins/1.0"
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	id="com.simasteam.phonegap.plugin.alarmgap"
-	version="1.0.0">
-	
-    <name>AlarmGap</name>
-    <description>A PhoneGap Alarm Plugin</description>
-	<author>Leonardo Simas Gon�alves</author>
-    <license>LGPL v3</license>
-    <keywords>phonegap,alarm,plugin,android</keywords>
-	
-	<engines>
-		<engine name="cordova" version=">=3.3.0" />
-	</engines>
-  
-    <js-module src="www/AlarmGap.js" name="AlarmGap">
-        <clobbers target="window.plugins.alarmGap" />
-    </js-module>
- 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    id="com.simasteam.phonegap.plugin.alarmgap"
+    version="1.0.0"> 
+      
+    <name>AlarmGap</name> 
+    <description>A PhoneGap Alarm Plugin</description> 
+    <author>Leonardo Simas Gonçalves</author> 
+    <license>LGPL v3</license> 
+    <keywords>phonegap,alarm,plugin,android,ios</keywords> 
+      
+    <engines> 
+        <engine name="cordova" version=">=3.3.0" /> 
+    </engines> 
+    
+    <js-module src="www/AlarmGap.js" name="AlarmGap"> 
+        <clobbers target="navigator.alarmgap" /> 
+    </js-module> 
+   
     <!-- android -->
-    <platform name="android">
-        <config-file target="res/xml/config.xml" parent="/*">
-            <feature name="AlarmGap">
-                <param name="android-package" value="com.simasteam.phonegap.plugin.alarmgap.AlarmGapPlugin"/>
-            </feature>
-        </config-file>
-		
-		<config-file target="AndroidManifest.xml" parent="/manifest/application">
-			<activity android:name="com.simasteam.phonegap.plugin.alarmgap.ShowAlarmActivity">
-			</activity>
-		</config-file>
- 
-        <source-file src="src/android/AlarmBean.java" target-dir="src/com/simasteam/phonegap/plugin/alarmgap" />
-        <source-file src="src/android/AlarmGapPlugin.java" target-dir="src/com/simasteam/phonegap/plugin/alarmgap" />
-        <source-file src="src/android/ShowAlarmActivity.java" target-dir="src/com/simasteam/phonegap/plugin/alarmgap" />
-     </platform>          
+    <platform name="android"> 
+        <config-file target="res/xml/config.xml" parent="/*"> 
+            <feature name="AlarmGap"> 
+                <param name="android-package" value="com.simasteam.phonegap.plugin.alarmgap.AlarmGapPlugin"/> 
+            </feature> 
+        </config-file> 
+          
+        <config-file target="AndroidManifest.xml" parent="/manifest"> 
+            <uses-permission android:name="android.permission.VIBRATE" /> 
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" /> 
+        </config-file> 
+          
+        <config-file target="AndroidManifest.xml" parent="/manifest/application"> 
+            <activity android:name="com.simasteam.phonegap.plugin.alarmgap.ShowAlarmActivity" /> 
+              
+            <receiver android:name="com.simasteam.phonegap.plugin.alarmgap.BootCompletedReceiver" > 
+                <intent-filter> 
+                    <action android:name="android.intent.action.BOOT_COMPLETED"/> 
+                </intent-filter> 
+            </receiver> 
+        </config-file> 
+   
+        <source-file src="src/android/AlarmBean.java" target-dir="src/com/simasteam/phonegap/plugin/alarmgap" /> 
+        <source-file src="src/android/AlarmBO.java" target-dir="src/com/simasteam/phonegap/plugin/alarmgap" /> 
+        <source-file src="src/android/AlarmGapPlugin.java" target-dir="src/com/simasteam/phonegap/plugin/alarmgap" /> 
+        <source-file src="src/android/AlarmReceiver.java" target-dir="src/com/simasteam/phonegap/plugin/alarmgap" /> 
+        <source-file src="src/android/BootCompletedReceiver.java" target-dir="src/com/simasteam/phonegap/plugin/alarmgap" /> 
+        <source-file src="src/android/DataBaseOpenHelper.java" target-dir="src/com/simasteam/phonegap/plugin/alarmgap" /> 
+        <source-file src="src/android/NotificationBean.java" target-dir="src/com/simasteam/phonegap/plugin/alarmgap" /> 
+        <source-file src="src/android/ShowAlarmActivity.java" target-dir="src/com/simasteam/phonegap/plugin/alarmgap" /> 
+          
+        <source-file src="src/android/libs/android-support-v4.jar" target-dir="libs" /> 
+        <source-file src="src/android/libs/ormlite-android-4.48.jar" target-dir="libs" /> 
+        <source-file src="src/android/libs/ormlite-core-4.48.jar" target-dir="libs" /> 
+          
+        <asset src="www/AlarmGap.html" target="alarmgap/alarmpage.html" />
+        <asset src="www/alarmgap_android_large_icon.png" target="alarmgap/alarmgap_large_icon.png" />
+        
+        <source-file src="src/android/res/drawable/alarmgap_notification.png" target-dir="res/drawable" />
+          
+     </platform>           
 </plugin>
