@@ -4,14 +4,29 @@ An alarm phonegap plugin for Android (and later for iOS too)
 
 > TODO I'm still working on the iOS platform. I don't think it is possible to have the custom HTML when the alarm goes on, but I'm still trying to find a good solution (I'm new to iOS development)
 
+Index
+------------
+1. [How to use it](#how-to-use-it)
+ 1. [JSON Objects](#json-objects)
+  1. [AlarmBean](#alarmbean)
+  2. [NotificationBean](#notificationbean)
+ 2. [Methods](#methods)
+  1. [Save alarm](#save-alarm) 
+  2. [Delete alarm](#delete-alarm)
+  3. [Stop alarm](#stop-alarm)
+  4. [Snooze alarm](#snooze-alarm)
+
+
 How to use it:
 ------------
 
 With the methods below you can: save an alarm, delete it, stop it from ringing and snooze it to ring it again after some time.
 
+###JSON Objects
+
 First of all let's take a look in the AlarmBean and NotificationBean objects. These are JSON objects with all the needed data to identify and configure an alarm:
 
-###AlarmBean
+####AlarmBean
 | Attribute Name | Type | Required | Description |
 | ----           | ---- | ----     | ----        |
 | alarmId | long | X | The unique identification number used by the host application |
@@ -38,7 +53,7 @@ function alarmGapReceiveAlarm( _alarmJsonString ) {
 
 ****
 
-###NotificationBean
+####NotificationBean
 
 | Attribute Name | Type | Required | Description |
 | ----           | ---- | ----     | ----        |
@@ -53,55 +68,58 @@ function alarmGapReceiveAlarm( _alarmJsonString ) {
     * largeIconPath - Android only. If none is passwd the default icon is used.
 
 ****
+###Methods
 
 Now let's take a look at the plugin methods:
 
-###Save
+####Save alarm
 Saves the alarm in the plugin database and set it on.
 > On Android the alarm is keeped even when the device is rebooted
 
-- navigator.alarmgap.saveAlarm ( alarmJsonObject );
-- navigator.alarmgap.saveAlarm ( alarmJsonObject, successCallback );
-- navigator.alarmgap.saveAlarm ( alarmJsonObject, successCallback, errorCallback );  
+```javascript
+navigator.alarmgap.saveAlarm ( alarmJsonObject );
+navigator.alarmgap.saveAlarm ( alarmJsonObject, successCallback );
+navigator.alarmgap.saveAlarm ( alarmJsonObject, successCallback, errorCallback );  
+```
 
 `alarmJsonObject` - the AlarmBean JSON object described above.
 `successCallback` - (optional) success callback function.
 `errorCallback` -  (optional) error callback function.
 
-```javascript
-var alarmJsonObject = { alarmId : 1234, timeInMillis : ... };
-
-navigator.alarmgap.saveAlarm ( alarmJsonObject );
-```
-
-###Delete
+####Delete alarm
 Deletes the alarm from the plugin database.
 
-- navigator.alarmgap.deleteAlarm( alarmId );
-- navigator.alarmgap.deleteAlarm( alarmId, successCallback );
-- navigator.alarmgap.deleteAlarm( alarmId, successCallback, errorCallback );
+```javascript
+navigator.alarmgap.deleteAlarm( alarmId );
+navigator.alarmgap.deleteAlarm( alarmId, successCallback );
+navigator.alarmgap.deleteAlarm( alarmId, successCallback, errorCallback );
+```
 
 `alarmId` - the alarmId used to save the alarm.
 `successCallback` - (optional) success callback function.
 `errorCallback` -  (optional) error callback function.
 
-###Stop
+####Stop alarm
 Stops the alarm when if it is ringing.
 
-- navigator.alarmgap.stopAlarm( alarmId );
-- navigator.alarmgap.stopAlarm( alarmId, successCallback );
-- navigator.alarmgap.stopAlarm( alarmId, successCallback, errorCallback );
+```javascript
+navigator.alarmgap.stopAlarm( alarmId );
+navigator.alarmgap.stopAlarm( alarmId, successCallback );
+navigator.alarmgap.stopAlarm( alarmId, successCallback, errorCallback );
+```
 
 `alarmId` - the alarmId used to save the alarm.
 `successCallback` - (optional) success callback function.
 `errorCallback` - (optional) error callback function.
 
-###Snooze
+####Snooze alarm
 Stops the alarm and set it to ring after `snoozeTimeInMillis` milliseconds later. The time from the AlarmBean is updated and all the other data are preserved.
 
-- navigator.alarmgap.snoozeAlarm( alarmId, snoozeTimeInMillis );
-- navigator.alarmgap.snoozeAlarm( alarmId, snoozeTimeInMillis, successCallback, errorCallback );
-- navigator.alarmgap.snoozeAlarm( alarmId, snoozeTimeInMillis, successCallback, errorCallback );
+```javascript
+navigator.alarmgap.snoozeAlarm( alarmId, snoozeTimeInMillis );
+navigator.alarmgap.snoozeAlarm( alarmId, snoozeTimeInMillis, successCallback, errorCallback );
+navigator.alarmgap.snoozeAlarm( alarmId, snoozeTimeInMillis, successCallback, errorCallback );
+```
 
 `alarmId` - the alarmId used to save the alarm.
 `snoozeTimeInMillis` - after X milliseconds the alarm goes on again
