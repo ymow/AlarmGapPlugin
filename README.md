@@ -81,10 +81,10 @@ navigator.alarmgap.saveAlarm ( alarmJsonObject );
 navigator.alarmgap.saveAlarm ( alarmJsonObject, successCallback );
 navigator.alarmgap.saveAlarm ( alarmJsonObject, successCallback, errorCallback );  
 ```
-
-`alarmJsonObject` - the AlarmBean JSON object described above.
-`successCallback` - (optional) success callback function.
-`errorCallback` -  (optional) error callback function.
+* Parameters
+    * `alarmJsonObject` - the AlarmBean JSON object described above.
+    * `successCallback` - (optional) success callback function.
+    * `errorCallback` -  (optional) error callback function.
 
 ####Delete alarm
 Deletes the alarm from the plugin database.
@@ -94,10 +94,10 @@ navigator.alarmgap.deleteAlarm( alarmId );
 navigator.alarmgap.deleteAlarm( alarmId, successCallback );
 navigator.alarmgap.deleteAlarm( alarmId, successCallback, errorCallback );
 ```
-
-`alarmId` - the alarmId used to save the alarm.
-`successCallback` - (optional) success callback function.
-`errorCallback` -  (optional) error callback function.
+* Parameters
+    * `alarmId` - the alarmId used to save the alarm.
+    * `successCallback` - (optional) success callback function.
+    * `errorCallback` -  (optional) error callback function.
 
 ####Stop alarm
 Stops the alarm when if it is ringing.
@@ -107,10 +107,10 @@ navigator.alarmgap.stopAlarm( alarmId );
 navigator.alarmgap.stopAlarm( alarmId, successCallback );
 navigator.alarmgap.stopAlarm( alarmId, successCallback, errorCallback );
 ```
-
-`alarmId` - the alarmId used to save the alarm.
-`successCallback` - (optional) success callback function.
-`errorCallback` - (optional) error callback function.
+* Parameters
+    * `alarmId` - the alarmId used to save the alarm.
+    * `successCallback` - (optional) success callback function.
+    * `errorCallback` - (optional) error callback function.
 
 ####Snooze alarm
 Stops the alarm and set it to ring after `snoozeTimeInMillis` milliseconds later. The time from the AlarmBean is updated and all the other data are preserved.
@@ -121,7 +121,8 @@ navigator.alarmgap.snoozeAlarm( alarmId, snoozeTimeInMillis, successCallback, er
 navigator.alarmgap.snoozeAlarm( alarmId, snoozeTimeInMillis, successCallback, errorCallback );
 ```
 
-`alarmId` - the alarmId used to save the alarm.
-`snoozeTimeInMillis` - after X milliseconds the alarm goes on again
-`successCallback` - (optional) success callback function.
-`errorCallback` - (optional) error callback function.
+* Parameters
+    * `alarmId` - the alarmId used to save the alarm.
+    * `snoozeTimeInMillis` - after X milliseconds the alarm goes on again
+    * `successCallback` - (optional) success callback function.
+    * `errorCallback` - (optional) error callback function.
