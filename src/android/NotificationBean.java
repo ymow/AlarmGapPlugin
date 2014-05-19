@@ -13,8 +13,8 @@ public class NotificationBean implements Serializable {
 
 	private static final String FIELD_MESSAGE 	= "message";
 	private static final String FIELD_TITLE 	= "title";
-	private static final String FIELD_SMALL_ICON_NAME = "smallIconPath";
-	private static final String FIELD_LARGE_ICON_PATH = "largeIconName";
+	private static final String FIELD_SMALL_ICON_NAME = "smallIconName";
+	private static final String FIELD_LARGE_ICON_PATH = "largeIconPath";
 
 	private static final long serialVersionUID = 1L;
 	
