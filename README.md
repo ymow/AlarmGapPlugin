@@ -46,14 +46,15 @@ function alarmGapReceiveAlarm( _alarmJsonString ) {
 | message | string | X | The message text to be shown |
 | smallIconName | string | X(Android) | The Resource name used as small icon for the notification: R.drawable.FILENAME |
 | largeIconPath | string | - | The path to the image used as large icon for the notification. This should be relative to the "www" folder. |
-****
 
 * Observations:
   * Android
     * smallIconName - Android only. It should be the name of the file (without extension). This file should go in the android project path: "res/drawable/". If none is passed the default icon is used.
     * largeIconPath - Android only. If none is passwd the default icon is used.
 
-Now let's take a look at the methods:
+****
+
+Now let's take a look at the plugin methods:
 
 ###Save
 Saves the alarm in the plugin database and set it on.
