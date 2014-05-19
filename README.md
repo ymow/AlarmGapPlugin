@@ -8,13 +8,13 @@ Index
 ------------
 1. [How to use it](#how-to-use-it)
  1. [JSON Objects](#json-objects)
-  1. [AlarmBean](#alarmbean)
-  2. [NotificationBean](#notificationbean)
+   1. [AlarmBean](#alarmbean)
+   2. [NotificationBean](#notificationbean)
  2. [Methods](#methods)
-  1. [Save alarm](#save-alarm) 
-  2. [Delete alarm](#delete-alarm)
-  3. [Stop alarm](#stop-alarm)
-  4. [Snooze alarm](#snooze-alarm)
+   1. [Save alarm](#save-alarm) 
+   2. [Delete alarm](#delete-alarm)
+   3. [Stop alarm](#stop-alarm)
+   4. [Snooze alarm](#snooze-alarm)
 
 
 How to use it:
