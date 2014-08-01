@@ -138,7 +138,10 @@ public class AlarmBean implements Serializable {
 			json.put( FIELD_VIBRATE, this.vibrate );
 			json.put( FIELD_HTML_PATH, this.htmlPath );
 			json.put( FIELD_NOTIFICATION , notification.toJSON() );
-			json.put( FIELD_EXTRA , new JSONObject( extra ) );
+			if ( extra != null )
+				json.put( FIELD_EXTRA , new JSONObject( extra ) );
+			else
+				json.put( FIELD_EXTRA , null );
 			
 			return json;
 		} catch (JSONException e) {
