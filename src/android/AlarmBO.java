@@ -124,7 +124,6 @@ public class AlarmBO {
 				dataHelper.getAlarmDao().deleteById( savedAlarm.getId() );
 				dataHelper.getNotificationDao().deleteById( savedAlarm.getNotification().getId() );
 				
-				cancelAlarm( alarmBean );
 			}
 			
 		} catch (SQLException e) {
@@ -323,6 +322,7 @@ public class AlarmBO {
 
 	public void stopAlarm( AlarmBean bean ) {
 		deleteAlarm( bean );
+		cancelAlarm( bean );
 		
 		hideNotification( bean );
 		
