@@ -1,5 +1,6 @@
 package com.simasteam.phonegap.plugin.alarmgap;
 
+import java.sql.SQLException;
 import java.util.Date;
 
 import org.apache.cordova.CordovaActivity;
@@ -44,13 +45,18 @@ public class ShowAlarmActivity extends CordovaActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+		
+		Log.d( AlarmGapPlugin.TAG, "onCreate");
+		
+		
 		initScreen();
 	}
 
 	@Override
 	protected void onNewIntent(Intent intent) {
 		super.onNewIntent(intent);
+		
+		Log.d( AlarmGapPlugin.TAG, "onNewIntent");
 		
 		initScreen();
 	}
@@ -70,9 +76,15 @@ public class ShowAlarmActivity extends CordovaActivity {
 		AlarmReceiver.register( this, receiver );
 		
 		if ( bean == null ) {
+			finish();
 			return;
 		}
-			
+		
+		if ( ! isAlarmBeanValid() ) {
+			finish();
+			return;
+		}
+		
 		String url = AlarmBO.getAlarmUrl( bean );
 		
 		if ( url.equals( loadedUrl ) ) {
@@ -104,7 +116,23 @@ public class ShowAlarmActivity extends CordovaActivity {
 		this.appView.addJavascriptInterface( new AlarmGapInterface(), "AlarmGapInterface");
 	}
 	
+	private boolean isAlarmBeanValid() {
+		try {
+			bean = alarmBO.findByAlarmId( bean.getAlarmId() );
+			
+			Log.d( AlarmGapPlugin.TAG, "initScreen, findByAlarmId = " + bean );
+			
+			return bean != null;
+		} catch (Exception e) {
+			return false;
+		}
+	}
+
 	private void refreshAlarm() {
+		if ( ! isAlarmBeanValid() ) {
+			return;
+		}
+		
 		long now = new Date().getTime();
 		
 		if ( now >= bean.getTimeInMillis() ) {
@@ -115,21 +143,21 @@ public class ShowAlarmActivity extends CordovaActivity {
 	
 	private void attachAlarmBean() {
 		// FIXME sendjavascript not working... am I using it right?
-		//this.sendJavascript( "console.log( 'test sendjavascript' );" );
+		//this.appView.sendJavascript( "console.log( 'test sendjavascript' );" );
 		this.loadUrl("javascript:console.log( 'test loadUrl' )");
 		
 		JSONObject alarmJson = bean.toJson();
 		String stringAlarm = alarmJson.toString().replaceAll( "\\'" , "\\\\'");
 		
 		StringBuffer sb = new StringBuffer();
-		sb.append( "javascript:alarmGapReceiveAlarm( " );
+		sb.append( "alarmGapReceiveAlarm( " );
 			sb.append( " '" + stringAlarm + "' ");
-		sb.append( " );" );
+		sb.append( " )" );
 		
 		Log.d( AlarmGapPlugin.TAG, "sb.toString() = " + sb.toString() );
 		
-		this.loadUrl( sb.toString() );
-		//this.sendJavascript( sb.toString() );
+		this.loadUrl( "javascript:" + sb.toString() );
+		//this.appView.sendJavascript( sb.toString() );
 	}
 	
 	private class AlarmGapInterface {

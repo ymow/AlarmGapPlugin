@@ -121,7 +121,10 @@ public class AlarmBO {
 			AlarmBean savedAlarm = this.findByAlarmId( alarmBean.getAlarmId() );
 			
 			if ( savedAlarm != null ) {
-				dataHelper.getAlarmDao().deleteById( savedAlarm.getId() );
+				int deleted = dataHelper.getAlarmDao().deleteById( savedAlarm.getId() );
+				
+				Log.d( AlarmGapPlugin.TAG, "deleteAlarm deleted = " + deleted );
+				
 				dataHelper.getNotificationDao().deleteById( savedAlarm.getNotification().getId() );
 				
 			}
@@ -132,7 +135,7 @@ public class AlarmBO {
 		
 	}
 	
-	private AlarmBean findByAlarmId( Long alarmId ) throws SQLException {
+	public AlarmBean findByAlarmId( Long alarmId ) throws SQLException {
 		
 		if ( alarmId == null ) {
 			return null;
@@ -169,11 +172,15 @@ public class AlarmBO {
 	}
 
 	public void setAlarm(AlarmBean bean) {
+		Log.d( AlarmGapPlugin.TAG, "setAlarm bean = " + bean.getAlarmId() );
+		
 		PendingIntent pIntent = createPendingAlarm( bean );
 		getAlarmManager().set( AlarmManager.RTC_WAKEUP , bean.getTimeInMillis().longValue(), pIntent );
 	}
 	
 	private void cancelAlarm(AlarmBean bean) {
+		Log.d( AlarmGapPlugin.TAG, "cancelAlarm bean = " + bean.getAlarmId() );
+		
 		PendingIntent pIntent = createPendingAlarm( bean );
 		getAlarmManager().cancel( pIntent );
 	}

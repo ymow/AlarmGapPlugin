@@ -119,10 +119,10 @@ public class AlarmBean implements Serializable {
 
 	@Override
 	public String toString() {
-		return "AlarmBean [id=" + id + ", alarmId=" + alarmId
-				+ ", timeInMillis=" + timeInMillis + ", jsonObject="
-				+ extra + ", htmlPath=" + htmlPath + ", vibrate="
-				+ vibrate + ", notification=" + notification + "]";
+		return "AlarmBean [id=" + id + ", alarmId=" + alarmId;
+//				+ ", timeInMillis=" + timeInMillis + ", jsonObject="
+//				+ extra + ", htmlPath=" + htmlPath + ", vibrate="
+//				+ vibrate + ", notification=" + notification + "]";
 	}
 
 	/**
