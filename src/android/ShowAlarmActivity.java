@@ -9,6 +9,7 @@ import org.json.JSONObject;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
 
 public class ShowAlarmActivity extends CordovaActivity {
@@ -99,6 +100,8 @@ public class ShowAlarmActivity extends CordovaActivity {
 				}).start();
 			}
 		});
+		
+		this.appView.addJavascriptInterface( new AlarmGapInterface(), "AlarmGapInterface");
 	}
 	
 	private void refreshAlarm() {
@@ -127,6 +130,22 @@ public class ShowAlarmActivity extends CordovaActivity {
 		
 		this.loadUrl( sb.toString() );
 		//this.sendJavascript( sb.toString() );
+	}
+	
+	private class AlarmGapInterface {
+		
+		@JavascriptInterface
+		public void stopAlarm( long alarmId ) {
+			alarmBO.stopAlarm( bean );
+			finish();
+		}
+		
+		@JavascriptInterface
+		public void snoozeAlarm( long alarmId, long time ) {
+			alarmBO.snoozeAlarm( bean, time );
+			finish();
+		}
+		
 	}
 
 }

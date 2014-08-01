@@ -19,7 +19,7 @@ public class AlarmGapPlugin extends CordovaPlugin {
 	public static final String ACTION_STOP_ALARM 	= "stopAlarm";
 	public static final String ACTION_SNOOZE_ALARM 	= "snoozeAlarm";
 
-	public static final String HTML_DEFAULT = "alarmgap/alarmpage.html";
+	public static final String HTML_DEFAULT = "AlarmGap.html";
 	
 	private Activity activity;
 

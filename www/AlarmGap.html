@@ -6,12 +6,28 @@
         <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
         <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
         
-        <script type="text/javascript" src="phonegap.js"></script>
+        <script type="text/javascript" src="../phonegap.js"></script>
         <title>AlarmGap</title>
         
         <script type="text/javascript">
 			var alarmJsonString = null;
 			var alarmJsonObj = null;
+			
+			var alarmGapStop = function ( alarmId ) {
+			
+				//if ( navigator.alarmgap )
+				//	navigator.alarmgap.stopAlarm( alarmId );
+				//else
+					AlarmGapInterface.stopAlarm( alarmId );
+			};
+			
+			var alarmGapSnooze = function ( alarmId, time ) {
+			
+				//if ( navigator.alarmgap )
+				//	navigator.alarmgap.snoozeAlarm( alarmId, time );
+				//else
+					AlarmGapInterface.snoozeAlarm( alarmId, time );
+			};
 		
 			var alarmGapReceiveAlarm = function( _alarmJsonString ) {
 				console.log( "alarmGapReceiveAlarm called" );
@@ -29,7 +45,7 @@
 					console.log( "alarmJSON = " + alarmJsonObj );
 					console.log( "navigator.alarmgap = " + navigator.alarmgap );
 					
-					navigator.alarmgap.stopAlarm( alarmJsonObj.alarmId );
+					alarmGapStop( alarmJsonObj.alarmId );
 				};
 				
 				document.getElementById("btnSnooze").onclick = function() {
@@ -38,7 +54,7 @@
 					console.log( "alarmJSON = " + alarmJsonObj );
 					console.log( "navigator.alarmgap = " + navigator.alarmgap );
 					
-					navigator.alarmgap.snoozeAlarm( alarmJsonObj.alarmId, 10 * 1000 );
+					alarmGapSnooze( alarmJsonObj.alarmId, 10 * 1000 );
 				};
 			
 			};

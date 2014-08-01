@@ -13,14 +13,14 @@ public class NotificationBean implements Serializable {
 
 	private static final String FIELD_MESSAGE 	= "message";
 	private static final String FIELD_TITLE 	= "title";
-	private static final String FIELD_SMALL_ICON_NAME = "smallIconName";
-	private static final String FIELD_LARGE_ICON_PATH = "largeIconPath";
+	private static final String FIELD_SMALL_ICON_NAME = "smallIconPath";
+	private static final String FIELD_LARGE_ICON_PATH = "largeIconName";
 
 	private static final long serialVersionUID = 1L;
 	
 	public static final String TITLE_DEFAULT 	= "AlarmGap";
 	public static final String MESSAGE_DEFAULT 	= "It's time!";
-	public static final String LARGE_ICON_PATH_DEFAULT 	= "alarmgap/alarmgap_large_icon.png";
+	public static final String LARGE_ICON_PATH_DEFAULT 	= "alarmgap_android_large_icon.png";
 	public static final String SMALL_ICON_NAME_DEFAULT 	= "alarmgap_notification";
 	
 	@DatabaseField(generatedId = true)
