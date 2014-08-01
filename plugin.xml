@@ -53,8 +53,8 @@
         <source-file src="src/android/libs/ormlite-android-4.48.jar" target-dir="libs" /> 
         <source-file src="src/android/libs/ormlite-core-4.48.jar" target-dir="libs" /> 
           
-        <asset src="www/AlarmGap.html" target="alarmgap/alarmpage.html" />
-        <asset src="www/alarmgap_android_large_icon.png" target="alarmgap/alarmgap_large_icon.png" />
+        <asset src="www/AlarmGap.html" target="AlarmGap.html" />
+        <asset src="www/alarmgap_android_large_icon.png" target="alarmgap_android_large_icon.png" />
         
         <source-file src="src/android/res/drawable/alarmgap_notification.png" target-dir="res/drawable" />
           
